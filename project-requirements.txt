@@ -1,0 +1,82 @@
+For this assignment, you will implement the same service interaction using REST and gRPC.
+
+You may use Python or Go.
+
+Lab Goal
+Build two services:
+
+Order Service – accepts an order containing an item_id and quantity.
+
+Inventory Service – checks whether the requested item and quantity are available.
+
+Implement the Order → Inventory communication in both ways:
+
+REST/HTTP
+
+gRPC
+
+Both versions should provide the same basic functionality.
+
+ 
+
+Minimum Requirements
+REST Version
+Define a REST endpoint for checking inventory.
+
+Exchange request and response data using JSON.
+
+Use appropriate HTTP status codes.
+
+Set a timeout on the Order → Inventory request.
+
+gRPC Version
+Define the inventory service contract in a .proto file.
+
+Implement the equivalent inventory operation using gRPC.
+
+Set a gRPC deadline for the Order → Inventory call.
+
+Return an appropriate gRPC error/status when the requested item is unavailable.
+
+Failure Handling
+Demonstrate what happens when the Inventory Service responds too slowly.
+
+Add a temporary delay to the Inventory Service that is longer than the configured REST timeout and gRPC deadline.
+
+Your implementation should demonstrate that:
+
+The REST call handles the timeout cleanly.
+
+The gRPC call handles the exceeded deadline cleanly.
+
+The Order Service remains running after either failure.
+
+ 
+
+README Requirements
+Your GitHub repository must contain a README that includes:
+
+Instructions for running the REST version.
+
+Instructions for running the gRPC version.
+
+Example of a successful REST request and response.
+
+Example of a successful gRPC request and response.
+
+Evidence of REST timeout handling.
+
+Evidence of gRPC deadline handling.
+
+Evidence that the Order Service remains running after the failures.
+
+A short 4–6 sentence comparison answering: What differences did you observe between implementing the same service contract using REST and gRPC?
+
+The required evidence may be shown using terminal output, logs, curl output, or screenshots.
+
+ 
+
+Submission
+Submit only your GitHub repository link.
+
+You do not need to submit any additional files separately. All source code, setup/run instructions, execution results, failure-handling evidence, and the REST vs. gRPC comparison must be included in your GitHub repository and README.
