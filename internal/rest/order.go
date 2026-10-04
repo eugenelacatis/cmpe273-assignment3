@@ -27,11 +27,11 @@ func NewOrderHandler(inventoryURL string, client *http.Client) http.Handler {
 		if err != nil {
 			var ne net.Error
 			if errors.As(err, &ne) && ne.Timeout() {
-				log.Printf("order %s x%d: inventory timed out: %v", req.ItemID, req.Quantity, err)
+				log.Printf("order %q x%d: inventory timed out: %v", req.ItemID, req.Quantity, err)
 				writeJSON(w, http.StatusGatewayTimeout, OrderResponse{"error", "inventory service timed out"})
 				return
 			}
-			log.Printf("order %s x%d: inventory unreachable: %v", req.ItemID, req.Quantity, err)
+			log.Printf("order %q x%d: inventory unreachable: %v", req.ItemID, req.Quantity, err)
 			writeJSON(w, http.StatusBadGateway, OrderResponse{"error", "inventory service unreachable"})
 			return
 		}

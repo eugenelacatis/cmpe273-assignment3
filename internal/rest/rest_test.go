@@ -1,8 +1,11 @@
 package rest
 
 import (
+	"bytes"
+	"log"
 	"net/http"
 	"net/http/httptest"
+	"os"
 	"strings"
 	"testing"
 	"time"
@@ -86,5 +89,19 @@ func TestOrderInventoryDown502(t *testing.T) {
 	h := NewOrderHandler(url, &http.Client{Timeout: time.Second})
 	if got := post(t, h, "/orders", `{"item_id":"widget","quantity":1}`).Code; got != 502 {
 		t.Fatalf("got %d want 502", got)
+	}
+}
+
+func TestOrderLogEscapesItemID(t *testing.T) {
+	var buf bytes.Buffer
+	log.SetOutput(&buf)
+	t.Cleanup(func() { log.SetOutput(os.Stderr) })
+	srv := httptest.NewServer(http.NotFoundHandler())
+	url := srv.URL
+	srv.Close()
+	h := NewOrderHandler(url, &http.Client{Timeout: time.Second})
+	post(t, h, "/orders", `{"item_id":"a\nFAKE LOG LINE","quantity":1}`)
+	if strings.Contains(buf.String(), "\nFAKE LOG LINE") {
+		t.Fatalf("log injection: %q", buf.String())
 	}
 }
