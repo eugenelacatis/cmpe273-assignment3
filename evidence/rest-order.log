@@ -1,0 +1,2 @@
+2026/10/03 17:31:57 rest order on :8080 -> http://localhost:8081 (timeout 500ms)
+2026/10/03 17:32:00 order "widget" x2: inventory timed out: Post "http://localhost:8081/inventory/check": context deadline exceeded (Client.Timeout exceeded while awaiting headers)

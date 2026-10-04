@@ -1,0 +1,20 @@
+== 1. fast inventory (success) ==
+{"status":"confirmed","detail":"item available"}
+HTTP 201
+== 2. unavailable cases ==
+{"status":"rejected","detail":"insufficient stock"}
+HTTP 409
+{"status":"rejected","detail":"unknown item"}
+HTTP 404
+== 3. slow inventory (2000ms delay > 500ms limit) ==
+{"status":"error","detail":"inventory deadline exceeded"}
+HTTP 504
+== 4. order service still running ==
+order service PID 21962 alive
+{"status":"error","detail":"item_id and positive quantity required"}
+HTTP 400
+== order service log ==
+2026/10/03 17:32:00 grpc order on :8082 -> localhost:50051 (deadline 500ms)
+2026/10/03 17:32:01 order "gadget" x1: inventory call failed: rpc error: code = FailedPrecondition desc = insufficient stock for "gadget": have 0, want 1
+2026/10/03 17:32:01 order "nope" x1: inventory call failed: rpc error: code = NotFound desc = unknown item "nope"
+2026/10/03 17:32:03 order "widget" x2: inventory call failed: rpc error: code = DeadlineExceeded desc = context deadline exceeded
