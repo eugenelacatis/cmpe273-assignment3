@@ -4,6 +4,7 @@ import (
 	"context"
 	"encoding/json"
 	"log"
+	"math"
 	"net/http"
 	"time"
 
@@ -33,7 +34,7 @@ func NewOrderHandler(c pb.InventoryClient, deadline time.Duration) http.Handler 
 	mux := http.NewServeMux()
 	mux.HandleFunc("POST /orders", func(w http.ResponseWriter, r *http.Request) {
 		var req orderRequest
-		if err := json.NewDecoder(r.Body).Decode(&req); err != nil || req.ItemID == "" || req.Quantity <= 0 {
+		if err := json.NewDecoder(r.Body).Decode(&req); err != nil || req.ItemID == "" || req.Quantity <= 0 || req.Quantity > math.MaxInt32 {
 			writeJSON(w, http.StatusBadRequest, orderResponse{"error", "item_id and positive quantity required"})
 			return
 		}

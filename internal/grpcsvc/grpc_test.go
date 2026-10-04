@@ -85,3 +85,10 @@ func TestOrderInventoryDown502(t *testing.T) {
 		t.Fatalf("got %d want 502", got)
 	}
 }
+
+func TestOrderQuantityOverflowIs400(t *testing.T) {
+	h := NewOrderHandler(startInventory(t, 0), time.Second)
+	if got := post(h, `{"item_id":"widget","quantity":4294967297}`); got != 400 {
+		t.Fatalf("got %d want 400 (int32 truncation would turn this into quantity 1)", got)
+	}
+}
