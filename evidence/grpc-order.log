@@ -1,0 +1,4 @@
+2026/10/03 17:32:00 grpc order on :8082 -> localhost:50051 (deadline 500ms)
+2026/10/03 17:32:01 order "gadget" x1: inventory call failed: rpc error: code = FailedPrecondition desc = insufficient stock for "gadget": have 0, want 1
+2026/10/03 17:32:01 order "nope" x1: inventory call failed: rpc error: code = NotFound desc = unknown item "nope"
+2026/10/03 17:32:03 order "widget" x2: inventory call failed: rpc error: code = DeadlineExceeded desc = context deadline exceeded

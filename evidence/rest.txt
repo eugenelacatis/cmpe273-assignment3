@@ -1,0 +1,18 @@
+== 1. fast inventory (success) ==
+{"status":"confirmed","detail":"item available"}
+HTTP 201
+== 2. unavailable cases ==
+{"status":"rejected","detail":"insufficient stock"}
+HTTP 409
+{"status":"rejected","detail":"unknown item"}
+HTTP 404
+== 3. slow inventory (2000ms delay > 500ms limit) ==
+{"status":"error","detail":"inventory service timed out"}
+HTTP 504
+== 4. order service still running ==
+order service PID 21879 alive
+{"status":"error","detail":"item_id and positive quantity required"}
+HTTP 400
+== order service log ==
+2026/10/03 17:31:57 rest order on :8080 -> http://localhost:8081 (timeout 500ms)
+2026/10/03 17:32:00 order "widget" x2: inventory timed out: Post "http://localhost:8081/inventory/check": context deadline exceeded (Client.Timeout exceeded while awaiting headers)
